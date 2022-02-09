@@ -23,6 +23,7 @@
             outputyears,                                               &
             outstepmax,                                                &
             psi,                                                       &
+            palpha,                                                    &
             alpha_yr,                                                  &
             gamma_Fe,                                                  &
             lt_lifetime,                                               &
@@ -65,7 +66,8 @@
             alpha_yr,                                                  &
             gamma_Fe,                                                  & 
             lt_lifetime,                                               &
-            atpco2in
+            atpco2in,                                                  &
+            palpha
 
        REAL(KIND=wp), dimension (nbox), intent(in) ::                  &
             thin,                                                      &
@@ -334,6 +336,22 @@
          nlimit = no3   / (no3   +  kno3 ) 
          flimit = fet   / (fet   +   kfe ) 
 
+! gmac : condition on phytoplankton growth rate
+        time   = nstep*dt / s_per_yr
+        if (palpha .eq. 1) then
+            alpha = alpha_yr * conv / (s_per_yr)
+        else
+            if (time .le. 1) then
+                print *, 'Time ', time
+                print *, 'Eeep!'
+                alpha = palpha * alpha_yr * conv / (s_per_yr)
+            else
+                alpha = alpha_yr * conv / (s_per_yr)
+                print *, 'Time ', time
+                print *, 'Ooop!'
+            endif
+        endif
+        
 ! minval accepts an array of values and then finds the minimum along dim arguement
 !   need to reshape the concatenated nutrient arrays here to stack them by box
 ! -ve export is uptake by phytoplankton, +ve export is net remineralization

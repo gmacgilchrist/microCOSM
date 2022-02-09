@@ -65,6 +65,7 @@
        REAL(KIND=wp) :: dlambdadz2
        REAL(KIND=wp) :: dlambdadz3
        REAL(KIND=wp) :: psi
+       REAL(KIND=wp) :: palpha
        REAL(KIND=wp) :: wind1
        REAL(KIND=wp) :: wind2
        REAL(KIND=wp) :: wind3
@@ -93,8 +94,8 @@
             nlout
        
        ! Input some initial parameters
-       maxyears   = 1.e5_wp
-       outputyears= 1.e2_wp
+       maxyears   = 1.e2_wp
+       outputyears= 1.e0_wp
        outstepmax = int((maxyears/outputyears)+1)
        
        ! allocate memory
@@ -200,11 +201,13 @@
        dlambdadz3   = 1.e-2_wp
        ! Overturning rate (m3/s)
        psi         = 20.0e6_wp
+       ! perturbation of growth rate
+       palpha = 0._wp
        ! File number identifier
        id          = 1
             
        call model(id, maxyears, outputyears, outstepmax,               &
-            psi, alpha_yr,                                             &
+            psi, palpha, alpha_yr,                                     &
             gamma_Fe, lt_lifetime,                                     &
             (/dlambdadz1,dlambdadz2,dlambdadz3/),                      &
             (/fe_input1 ,fe_input2 ,fe_input3 /),                      &
