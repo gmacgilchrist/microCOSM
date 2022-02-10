@@ -338,18 +338,10 @@
 
 ! gmac : condition on phytoplankton growth rate
         time   = nstep*dt / s_per_yr
-        if (palpha .eq. 1) then
-            alpha = alpha_yr * conv / (s_per_yr)
+        if (time .le. 1) then
+            alpha = palpha * alpha_yr * conv / (s_per_yr)
         else
-            if (time .le. 1) then
-                print *, 'Time ', time
-                print *, 'Eeep!'
-                alpha = palpha * alpha_yr * conv / (s_per_yr)
-            else
-                alpha = alpha_yr * conv / (s_per_yr)
-                print *, 'Time ', time
-                print *, 'Ooop!'
-            endif
+            alpha = alpha_yr * conv / (s_per_yr)
         endif
         
 ! minval accepts an array of values and then finds the minimum along dim arguement

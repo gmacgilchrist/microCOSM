@@ -36,19 +36,32 @@ REAL(KIND=wp), DIMENSION(nbox),      intent(out) :: dx, dy, dz,        &
 REAL(KIND=wp), DIMENSION(nbox,nbox), intent(out) :: K, R
 REAL(KIND=wp)                                    :: m2deg
 
+!dx   = (/ 17.0e6_wp, 17.0e6_wp, 17.0e6_wp /)
+!dy   = (/  4.0e6_wp, 12.0e6_wp, 16.0e6_wp /)  
+!dz   = (/ 50.0_wp,   50.0_wp, 5050.0_wp   /)
+!gmac : dimensions for equatorial upwelling
 dx   = (/ 17.0e6_wp, 17.0e6_wp, 17.0e6_wp /)
-dy   = (/  4.0e6_wp, 12.0e6_wp, 16.0e6_wp /)  
-dz   = (/ 50.0_wp,   50.0_wp, 5050.0_wp   /)
+dy   = (/  1.0e6_wp, 3.5e6_wp, 4.5e6_wp /)  
+dz   = (/ 100.0_wp,   100.0_wp, 900.0_wp   /)
 
+!gmac
 ! depth in m or decibars
-depth = (/ 25.0_wp,   25.0_wp, 2575.0_wp /)
+!depth = (/ 25.0_wp,   25.0_wp, 2575.0_wp /)
+depth = (/ 50.0_wp,   50.0_wp, 550.0_wp /)
 ! applied pressure in bars for carbon system coefficients
 pressure = (depth/10._wp) - 1._wp
 
-m2deg = 180._wp/(dy(1)+dy(2))
-lat = (/ -90._wp+(dy(1)       /2._wp) *m2deg,                          &        
-         -90._wp+(dy(1)+(dy(2)/2._wp))*m2deg,                          &
-         -90._wp+(dy(3)       /2._wp) *m2deg                           &
+!gmac : alter lat extent for deriving m2deg
+!gmac : alter lats to start at equator
+!m2deg = 180._wp/(dy(1)+dy(2))
+!lat = (/ -90._wp+(dy(1)       /2._wp) *m2deg,                          &        
+!         -90._wp+(dy(1)+(dy(2)/2._wp))*m2deg,                          &
+!         -90._wp+(dy(3)       /2._wp) *m2deg                           &
+!       /)
+m2deg = 45._wp/(dy(1)+dy(2))
+lat = (/ 0._wp+(dy(1)       /2._wp) *m2deg,                          &        
+         0._wp+(dy(1)+(dy(2)/2._wp))*m2deg,                          &
+         0._wp+(dy(3)       /2._wp) *m2deg                           &
        /)
                                                     
 area     = dx * dy 
